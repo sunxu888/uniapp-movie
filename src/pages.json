@@ -5,6 +5,18 @@
 			"style": {
 				"navigationBarTitleText": "卡尔影视"
 			}
+		},
+		{
+			"path": "pages/movie/movie",
+			"style": {
+				"navigationBarTitleText": "观影"
+			}
+		},
+		{
+			"path": "pages/movie/play",
+			"style": {
+				"navigationBarTitleText": "观影"
+			}
 		}
 	],
 	"globalStyle": {

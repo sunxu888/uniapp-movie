@@ -27,7 +27,7 @@
 
     <!--电影start-->
     <view>
-      <text class="drawerTitle">电影</text>
+      <text class="drawerTitle">最新电影</text>
       <!-- <view class="paaContainer">
         <view class="defaultItemBg">
           <image
@@ -47,9 +47,7 @@
           :key="index"
           class="pccDescContainer"
         >
-          <navigator
-            :url="item.url"
-          >
+          <navigator :url='"../movie/movie?url="+item.url' open-type="redirect">
             <view class="defaultItemBg">
               <image :src="item.imgsrc" :alt="item.name" class="pccImg"></image>
               <view class="pLayer"></view>
@@ -66,6 +64,7 @@
   </view>
 </template>
 <script>
+import {getMovieList} from '../../api/api'
 export default {
   data: () => {
     return {
@@ -74,18 +73,63 @@ export default {
   },
   onLaunch: function () {},
 
-  onShow: function () {
-    this.get();
+  async onShow(){
+    let data = await getMovieList()
+    try{
+      if(data[0]==null){
+        this.list=data[1].data.splice(0,9)
+      }
+    }catch{
+      console.log("崩了")
+    }
   },
-  methods: {
-    get() {
-      uni.request({
-        url: "http://localhost:3000/", //仅为示例，并非真实接口地址。
-        success: (res) => {
-          this.list = res.data;
-        },
-      });
-    },
-  },
+  methods: {}
 };
 </script>
+
+<style >
+
+img{display:block;}
+.banner {
+  width: 100%;
+  height: 200px;
+}
+.banner_item {
+  width: 100%;
+}
+
+.paaContainer {
+	
+}
+.drawerTitle{margin: 0 0 10px 10px;display:block;}
+.drawerTitle span{
+	 
+  font-weight: 700;
+  font-size: 18px;
+  
+}
+.defaultItemBg {
+  position: relative;
+}
+.defaultItemBg .paaImg {
+  width: 100%;
+}
+.defaultItemBg .pSummary {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #fff;
+}
+
+.pDesc {
+  font-size: 13px;
+  color: #999;
+  margin-top:.1rem;
+  padding:0px 10px;
+  margin-bottom:10px;
+}
+.pccContainer{display:flex; flex-flow: row wrap;justify-content: space-between;padding:10px;}
+.pccContainer .pccDescContainer{width:32%;}
+.pccContainer .pccImg{width:100%;border-radius:4px;}
+.pName {white-space: nowrap;  text-overflow: ellipsis;overflow: hidden;margin-top:5px;margin-bottom: 9px;}
+</style>
